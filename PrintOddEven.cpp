@@ -12,21 +12,24 @@ void *even(void *p);
 // Print odd numbers
 void *odd(void *p)
 {
-  for(int j=1;j<100;j+=2) {
-    printf("ODD---: %d\n",j);
+  for(int j=1;j<10;j+=2) {
+    pthread_mutex_lock( &count_mutex );
+    pthread_cond_wait( &condition_var, &count_mutex );
+    printf("ODD--: %d\n",j);
     pthread_cond_signal( &condition_var );
-	  pthread_cond_wait( &condition_var, &count_mutex );
-
+    pthread_mutex_unlock( &count_mutex );
  }
 }
 
 // print even numbers
 void *even(void *p)
 {
-  for(int j=2;j<100;j+=2) {
-    pthread_cond_wait( &condition_var, &count_mutex );
-    printf("EVEN--: %d\n",j);
+  for(int j=2;j<=10;j+=2) {
+    pthread_mutex_lock( &count_mutex );
+    printf("EVEN-: %d\n",j);
     pthread_cond_signal( &condition_var );
+    pthread_cond_wait( &condition_var, &count_mutex );
+    pthread_mutex_unlock( &count_mutex );
  }
 }
 
