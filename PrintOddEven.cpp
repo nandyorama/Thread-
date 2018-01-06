@@ -32,7 +32,7 @@ void *even(void *p)
     pthread_mutex_unlock( &count_mutex );
  }
 }
-
+ 
 int main()
 {
  pthread_t thread1, thread2;
